@@ -1,0 +1,57 @@
+{% extends 'appointments/base.html' %}
+
+{% block title %}Subscribe to {{ plan.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title mb-0">Subscribe to {{ plan.name }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5>Plan Details:</h5>
+                        <p class="mb-1">Duration: {{ plan.get_duration_months_display }}</p>
+                        <p class="mb-1">Price: Rs. {{ plan.price }}</p>
+                        {% if plan.description %}
+                            <p class="text-muted">{{ plan.description }}</p>
+                        {% endif %}
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="time_slot" class="form-label">Choose Your Daily Time Slot (2 hours)</label>
+                            <select name="time_slot" id="time_slot" class="form-select" required>
+                                <option value="">Select a time slot</option>
+                                {% for slot in time_slots %}
+                                    <option value="{{ slot.id }}">{{ slot }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-text">This will be your fixed time slot throughout your subscription period.</div>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <h6 class="alert-heading">Important Notes:</h6>
+                            <ul class="mb-0">
+                                <li>You will have access to the gym for 2 hours every day during your chosen time slot</li>
+                                <li>The gym is closed on Saturdays</li>
+                                <li>Your subscription will start immediately upon confirmation</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-check-circle me-2"></i>Confirm Subscription
+                            </button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

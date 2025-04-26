@@ -1,0 +1,189 @@
+{% extends 'appointments/base.html' %}
+
+{% block title %}Register - Gym Appointment System{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url('https://images.pexels.com/photos/1229356/pexels-photo-1229356.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    
+    .card {
+        background-color: rgba(30, 30, 30, 0.8); /* Darker semi-transparent */
+        color: white; /* Make text readable */
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Slightly darker shadow */
+    }
+    
+    
+    .btn-primary {
+        background-color: #d32f2f;
+        border: none;
+    }
+    
+    .btn-primary:hover {
+        background-color: #c62828;
+    }
+    
+    
+    a {
+        color: #388e3c; /* Neon green */
+    }
+    
+    a:hover {
+        color: #2e7d32; /* Darker shade on hover */
+    }
+    
+
+
+    /* Ensure the form container adapts to different screen sizes */
+.container {
+    max-width: 100%;
+    padding: 15px;
+}
+
+/* Adjust card width for smaller screens */
+@media (max-width: 768px) {
+    .card {
+        margin: 10px;
+    }
+}
+
+/* Enhance input fields and buttons for touch devices */
+input[type="text"],
+input[type="password"],
+button[type="submit"] {
+    font-size: 1rem;
+    padding: 10px;
+}
+
+.form-control {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid white;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+nav {
+    position: absolute;
+    top: -30px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 2px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+</style>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Create Account</h2>
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Please correct the following errors:</strong>
+                        <ul class="mb-0">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Username field -->
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                            <input type="text" 
+                                   name="{{ form.username.html_name }}"
+                                   class="form-control {% if form.username.errors %}is-invalid{% endif %}"
+                                   id="{{ form.username.id_for_label }}"
+                                   value="{{ form.username.value|default:'' }}"
+                                   required>
+                                   <div class="form-text" style="color:rgb(242, 246, 247);">
+                                    Required. 150 characters or fewer. Letters, digits, and @/./+/-/_ only.
+                                </div>
+                                
+                            {% if form.username.errors %}
+                            <div class="invalid-feedback">
+                                {{ form.username.errors|join:", " }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Password field -->
+                        <div class="mb-3">
+                            <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
+                            <input type="password" 
+                                   name="{{ form.password1.html_name }}"
+                                   class="form-control {% if form.password1.errors %}is-invalid{% endif %}"
+                                   id="{{ form.password1.id_for_label }}"
+                                   required>
+                            <div class="form-text" style="color:rgb(242, 246, 247);">
+                                <strong>Your password must:</strong>
+                                 <ul>
+                                  <li>✅ At least 8 characters</li>
+                                  <li>⚠️ Not similar to your username</li>
+                                  <li>🔒 Not a commonly used password</li>
+                                  <li>❌ Not entirely numeric</li>
+                                  <li>🔡 Include letters & numbers</li>
+                                 </ul>
+                            </div>
+                            {% if form.password1.errors %}
+                            <div class="invalid-feedback">
+                                {{ form.password1.errors|join:", " }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Password confirmation field -->
+                        <div class="mb-4">
+                            <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
+                            <input type="password" 
+                                   name="{{ form.password2.html_name }}"
+                                   class="form-control {% if form.password2.errors %}is-invalid{% endif %}"
+                                   id="{{ form.password2.id_for_label }}"
+                                   required>
+                            <div class="form-text" style="color:rgb(242, 246, 247);">
+                                Enter the same password as before, for verification.
+                            </div>
+                            {% if form.password2.errors %}
+                            <div class="invalid-feedback">
+                                {{ form.password2.errors|join:", " }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <p class="mb-0">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

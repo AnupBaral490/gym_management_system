@@ -1,0 +1,69 @@
+{% extends 'appointments/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Workout History</h2>
+        <a href="{% url 'workout_log' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Log New Workout
+        </a>
+    </div>
+    
+    {% if sessions %}
+        {% for session in sessions %}
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ session.date }}</h5>
+                    {% if session.appointment %}
+                    <span class="badge bg-info">Appointment Session</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                {% if session.notes %}
+                <div class="mb-3">
+                    <strong>Notes:</strong>
+                    <p class="mb-0">{{ session.notes }}</p>
+                </div>
+                {% endif %}
+                
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Exercise</th>
+                                <th>Category</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in session.exerciselog_set.all %}
+                            <tr>
+                                <td>{{ log.exercise.name }}</td>
+                                <td>{{ log.exercise.get_category_display }}</td>
+                                <td>
+                                    {% if log.exercise.category == 'cardio' %}
+                                        {{ log.duration_minutes }} minutes
+                                    {% else %}
+                                        {{ log.sets }} sets × {{ log.reps }} reps
+                                        {% if log.weight %}
+                                        @ {{ log.weight }}kg
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            You haven't logged any workouts yet. Start by <a href="{% url 'workout_log' %}">logging your first workout</a>!
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gym Appointment System{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+
+<style>
+    /* General Body and Container Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+    }
+    
+    .container {
+        padding-top: 20px;
+    }
+    
+    /* Navbar Styling */
+    .navbar {
+        background-color: #343a40 !important; /* Dark background for navbar */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visibility */
+    }
+    
+    .navbar-brand img {
+        height: 40px;
+        width: auto;
+    }
+    
+    /* Navbar Links */
+    .navbar-nav .nav-item .nav-link {
+        color: #fff !important; /* White text color for navbar links */
+        font-size: 16px;
+        font-weight: 500;
+        padding: 12px 18px;
+        transition: all 0.3s ease;
+    }
+    
+    .navbar-nav .nav-item .nav-link:hover,
+    .navbar-nav .nav-item .nav-link:focus {
+        background-color: #ffb703;
+        color: #343a40; /* Dark color on hover with yellow background */
+        border-radius: 5px;
+    }
+    
+    /* Dropdown Menu Styling */
+    .navbar-nav .dropdown-menu {
+        background-color: #343a40; /* Same background for dropdown */
+        border: none;
+    }
+    
+    .navbar-nav .dropdown-menu .dropdown-item {
+        color: #fff !important;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    
+    .navbar-nav .dropdown-menu .dropdown-item:hover {
+        background-color: #ffb703;
+        color: #343a40; /* Yellow background on hover */
+    }
+    
+    /* Form Button in Navbar */
+    .navbar .nav-item form button {
+        background: transparent;
+        border: none;
+        color: #fff;
+        padding: 12px 18px;
+        cursor: pointer;
+    }
+    
+    .navbar .nav-item form button:hover {
+        color: #ffb703; /* Highlight logout button on hover */
+    }
+    
+    /* Mobile Navbar Toggler */
+    .navbar-toggler-icon {
+        background-color: #ffb703; /* Yellow color for toggler */
+    }
+    
+    /* Active Links */
+    .nav-item.active .nav-link {
+        background-color: #ffb703 !important;
+        color: #343a40;
+        border-radius: 5px;
+    }
+    
+    /* Alerts Styling */
+    .alert {
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    .alert-success {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .alert-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .alert-info {
+        background-color: #17a2b8;
+        color: white;
+    }
+    
+    /* Footer Section */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        text-align: center;
+        padding: 20px 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    
+    footer p {
+        margin: 0;
+    }
+    
+    /* Media Queries for Responsiveness */
+    
+    /* Large screens: Desktop */
+    @media (min-width: 1200px) {
+        .navbar-nav .nav-item .nav-link {
+            font-size: 18px; /* Larger text for desktop */
+        }
+    
+        .navbar-nav {
+            margin-left: auto; /* Align nav to the right on large screens */
+        }
+    }
+    
+    /* Medium Screens: Tablet */
+    @media (max-width: 992px) {
+        .navbar-nav .nav-item .nav-link {
+            font-size: 14px; /* Adjust font size for tablet */
+        }
+    
+        .navbar-brand img {
+            height: 35px; /* Reduce logo size for tablet screens */
+        }
+    
+        .navbar-toggler-icon {
+            background-color: #ffb703; /* Keep the yellow toggler icon */
+        }
+    
+        /* Align navbar items center on medium screens */
+        .navbar-nav {
+            text-align: center;
+        }
+    }
+    
+    /* Small Screens: Mobile */
+    @media (max-width: 768px) {
+        .navbar-nav {
+            width: 100%; /* Take full width on mobile */
+            text-align: center; /* Center align items */
+        }
+    
+        .navbar-toggler-icon {
+            background-color: #ffb703; /* Keep yellow toggler icon */
+        }
+    
+        .navbar .navbar-collapse {
+            margin-top: 20px; /* Add spacing for the collapsed menu */
+        }
+    
+        .navbar-nav .nav-item .nav-link {
+            font-size: 14px; /* Smaller text on mobile */
+            padding: 12px; /* Less padding on mobile */
+        }
+    
+        .navbar-brand img {
+            height: 30px; /* Further reduce logo size for mobile */
+        }
+    }
+    
+    /* Very Small Screens: Extra Mobile */
+    @media (max-width: 480px) {
+        .navbar-nav .nav-item .nav-link {
+            font-size: 12px; /* Even smaller font size for small mobile screens */
+        }
+    
+        .navbar-nav .nav-item {
+            padding: 10px; /* Reduce padding for small screens */
+        }
+    }
+    
+</style>
+  
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src=""C:\Bootstrap in one video\static\img\logo1.png"" alt="Devi's Gym Logo" style="height: 40px; width: auto;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="workoutDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-dumbbell"></i> Workouts
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'workout_log' %}">Log Workout</a></li>
+                                <li><a class="dropdown-item" href="{% url 'workout_history' %}">Workout History</a></li>
+                                <li><a class="dropdown-item" href="{% url 'track_progress' %}">Track Progress</a></li>
+                                <li><a class="dropdown-item" href="{% url 'progress_history' %}">View Progress</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'book_appointment' %}">Book Appointment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'my_appointments' %}">My Appointments</a>
+                        </li>
+                        <li class="nav-item {% block contactactive %} {% endblock contactactive %}">
+                            <a class="nav-link" href="/contact">Contact US</a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link border-0 bg-transparent">Logout</button>
+                            </form>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="achievementsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Achievements
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="achievementsDropdown">
+                                <a class="dropdown-item" href="{% url 'my_certificates' %}">My Certificates</a>
+                                <a class="dropdown-item" href="{% url 'my_badges' %}">My Badges</a>
+                                <a class="dropdown-item" href="{% url 'leaderboard' %}">Leaderboard</a>
+                            </div>
+                        </li>
+
+
+
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery (required for Bootstrap 4) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap Bundle (includes Popper.js) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

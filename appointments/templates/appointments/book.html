@@ -1,0 +1,55 @@
+{% extends 'appointments/base.html' %}
+
+{% block title %}Book Appointment{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title mb-0">Book Your Gym Session</h2>
+                </div>
+                <div class="card-body">
+                    {% if subscription %}
+                        <div class="alert alert-info mb-4">
+                            <h5 class="alert-heading">Your Subscription Details</h5>
+                            <p>Plan: {{ subscription.plan.name }}</p>
+                            <p>Time Slot: {{ subscription.time_slot }}</p>
+                            <p>Valid until: {{ subscription.end_date }}</p>
+                        </div>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Select Date</label>
+                                <input type="date" class="form-control" id="date" name="date" required
+                                    min="{{ today|date:'Y-m-d' }}" max="{{ subscription.end_date|date:'Y-m-d' }}">
+                            </div>
+
+                            <div class="alert alert-warning">
+                                <h6 class="alert-heading">Please Note:</h6>
+                                <ul class="mb-0">
+                                    <li>Your session will be at {{ subscription.time_slot }} every day</li>
+                                    <li>The gym is closed on Saturdays</li>
+                                    <li>You can only book within your subscription period</li>
+                                </ul>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Book Session</button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <h4 class="alert-heading">No Active Subscription</h4>
+                            <p>You need an active subscription to book gym sessions.</p>
+                            <hr>
+                            <a href="{% url 'home' %}" class="btn btn-primary">View Subscription Plans</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
